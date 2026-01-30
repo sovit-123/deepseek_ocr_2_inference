@@ -63,7 +63,9 @@ def run_inference(image_files, file_path, model, tokenizer):
     os.makedirs(output_dir, exist_ok=True)
 
     for i, image_file in enumerate(image_files):
-        # if i == 2: break # For testing.
+        if i == 2: 
+            print('Stopping after 2 pages for testing.')
+            break # For testing.
         if args.prompt == 'grounding':
             prompt = "<image>\n<|grounding|>Convert the document to markdown. "
         else:
@@ -102,8 +104,9 @@ def merge_markdowns(output_dir, merged_markdown):
     print(f"Merged markdown saved to {merged_markdown}")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Run DeepSeek OCR inference on a PDF')
-    parser.add_argument('pdf', help='Path to input PDF')
+    parser = argparse.ArgumentParser(description='Run DeepSeek OCR inference on a PDF or single image')
+    parser.add_argument('pdf', nargs='?', help='Path to input PDF')
+    parser.add_argument('--image', '-i', help='Path to input image file')
     parser.add_argument(
         '--prompt',
         default='grounding',
@@ -121,15 +124,27 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
+    # Validate inputs: accept either a PDF positional argument or a single image via --image
+    if args.image and args.pdf:
+        parser.error('Provide only one of a PDF positional argument or the --image option')
+
+    if not args.image and not args.pdf:
+        parser.error('Provide a PDF path or the --image option')
 
     model, tokenizer = load_model(args)
 
-    image_files = read_pdf(args.pdf)
+    if args.image:
+        # Single image mode: treat the image path as the input file path
+        image_files = [args.image]
+        input_path = args.image
+    else:
+        image_files = read_pdf(args.pdf)
+        input_path = args.pdf
 
     output_dir = run_inference(
-        image_files, 
-        file_path=args.pdf, 
-        model=model, 
+        image_files,
+        file_path=input_path,
+        model=model,
         tokenizer=tokenizer
     )
 
