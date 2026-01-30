@@ -1,0 +1,6 @@
+transformers==4.46.3
+torch==2.9.1
+pdf2image==1.17.0
+bitsandbytes==0.49.1
+Pillow==12.0.0
+matplotlib==3.10.8
