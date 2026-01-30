@@ -7,8 +7,7 @@ A document OCR pipeline that converts PDF files to markdown using the DeepSeek O
 - **PDF to Image Conversion**: Automatically converts PDF pages to JPEG images
 - **Advanced OCR**: Uses DeepSeek OCR 2 model with 4-bit quantization for efficient processing
 - **Markdown Output**: Converts document images to structured markdown format
-- **Batch Processing**: Processes multiple pages and merges results into a single markdown file
-- **GPU Optimized**: Uses Flash Attention 2 and quantization for faster inference on NVIDIA GPUs
+- **Multi-Page Processing**: Processes multiple pages and merges results into a single markdown file
 
 ## Requirements
 
