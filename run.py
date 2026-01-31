@@ -5,7 +5,6 @@ import torch
 import os
 import argparse
 import config
-import markdown
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
