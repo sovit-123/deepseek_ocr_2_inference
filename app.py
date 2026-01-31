@@ -4,6 +4,9 @@ import shutil
 import torch
 import run
 import config
+import base64
+import mimetypes
+import re
 
 from pathlib import Path
 
@@ -103,9 +106,43 @@ def process_input(
         merged_file = run.merge_markdowns(output_dir, merged_markdown=config.MERGED_OUTPUT_NAME)
         current_output_dir = output_dir
 
-        """Read merged markdown"""
+        """Read merged markdown and convert image paths to base64 data URIs"""
         with open(merged_file, 'r', encoding='utf-8') as f:
             markdown_content = f.read()
+
+        def convert_images_to_base64(md):
+            '''
+            Convert all image paths in markdown to base64 data URIs.
+
+            :params md: Markdown content with image paths
+
+            Returns:
+                str: Markdown with images as data URIs
+            '''
+            def repl(match):
+                img_path = match.group(1)
+                # Handle both absolute and relative paths
+                if os.path.isabs(img_path):
+                    img_file = img_path
+                else:
+                    img_file = os.path.join(output_dir, img_path)
+                
+                if not os.path.exists(img_file):
+                    return match.group(0)
+                
+                mime, _ = mimetypes.guess_type(img_file)
+                mime = mime or 'application/octet-stream'
+                try:
+                    with open(img_file, 'rb') as imf:
+                        b64 = base64.b64encode(imf.read()).decode('ascii')
+                    return f'![](data:{mime};base64,{b64})'
+                except Exception:
+                    return match.group(0)
+
+            # Match patterns like ![](path/to/image.jpg) or ![alt](path)
+            return re.sub(r'!\[[^\]]*\]\(([^)]+)\)', repl, md)
+
+        markdown_content = convert_images_to_base64(markdown_content)
 
         progress(1.0, desc='Processing complete!')
 
@@ -300,4 +337,8 @@ def create_interface():
 
 if __name__ == '__main__':
     app = create_interface()
-    app.launch(share=False, server_name='127.0.0.1', server_port=7860)
+    app.launch(
+        share=True, 
+        server_name='127.0.0.1', 
+        server_port=7860    
+    )

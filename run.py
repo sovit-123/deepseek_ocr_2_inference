@@ -5,6 +5,7 @@ import torch
 import os
 import argparse
 import config
+import markdown
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
@@ -154,7 +155,8 @@ def merge_markdowns(output_dir, merged_markdown=config.MERGED_OUTPUT_NAME):
             if os.path.exists(file_name):
                 with open(file_name, 'r') as infile:
                     content = infile.read()
-                    content = content.replace('![](images/', f"![]({dir_name}/images/")
+                    # content = content.replace('![](images/', f"![]({dir_name}/images/")
+                    content = content.replace('![](images/', f"![]({os.getcwd()}/{output_dir}/{dir_name}/images/")
                     outfile.write(content + '\n\n')
 
     print(f"Merged markdown saved to {merged_markdown}")
