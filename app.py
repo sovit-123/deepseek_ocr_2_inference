@@ -287,13 +287,13 @@ def create_interface():
             outputs=[process_status, markdown_output, download_file]
         )
 
-        gr.Markdown("""
-        ### Tips
-        - Load the model once, then process multiple files
-        - Use 4-bit quantization on low-memory systems (GPU with <24GB)
-        - Increase base_size for better quality (slower), decrease for speed
-        - Use 'grounding' prompt for structured documents, 'free ocr' for general text
-        """)
+        with gr.Accordion('Tips', open=False):
+            gr.Markdown("""
+            - Load the model once, then process multiple files
+            - Use 4-bit quantization on low-memory systems (GPU with <24GB)
+            - Increase base_size for better quality (slower), decrease for speed
+            - Use 'grounding' prompt for structured documents, 'free ocr' for general text
+            """)
 
     return app
 
