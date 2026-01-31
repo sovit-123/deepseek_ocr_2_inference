@@ -111,14 +111,14 @@ def process_input(
             markdown_content = f.read()
 
         def convert_images_to_base64(md):
-            '''
+            """
             Convert all image paths in markdown to base64 data URIs.
 
             :params md: Markdown content with image paths
 
             Returns:
                 str: Markdown with images as data URIs
-            '''
+            """
             def repl(match):
                 img_path = match.group(1)
                 # Handle both absolute and relative paths
