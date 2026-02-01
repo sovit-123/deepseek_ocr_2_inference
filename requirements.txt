@@ -6,3 +6,4 @@ Pillow==12.0.0
 matplotlib==3.10.8
 gradio==6.5.1
 addict==2.4.0
+flash-attn==2.8.3
