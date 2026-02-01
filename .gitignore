@@ -43,6 +43,7 @@ input/
 *.pdf
 .env
 .env.local
+.gradio
 
 # Jupyter
 .ipynb_checkpoints/
