@@ -657,7 +657,7 @@ def create_interface():
         with gr.Accordion('💡 Tips', open=False):
             gr.Markdown("""
             - **Load once, process many**: Load the model once, then process multiple files
-            - **4-bit quantization**: Use on systems with < 24GB GPU memory
+            - **4-bit quantization**: Use on systems with < 10GB GPU memory
             - **Base size**: Increase for quality, decrease for speed
             - **Prompt types**: 'grounding' for structured docs, 'free ocr' for general text
             - **Batch processing**: Point to a folder to process multiple files at once

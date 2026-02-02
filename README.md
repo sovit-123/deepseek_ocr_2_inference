@@ -2,6 +2,8 @@
 
 A document OCR pipeline that converts PDF files to markdown using the DeepSeek OCR 2 model. The system extracts text and structure from document images and outputs structured markdown files.
 
+![](assets/deepseek-ocr2-demo-1.gif)
+
 ## Features
 
 - **PDF to Image Conversion**: Automatically converts PDF pages to JPEG images
