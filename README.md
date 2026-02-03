@@ -15,7 +15,6 @@ A document OCR pipeline that converts PDF files to markdown using the DeepSeek O
 
 - Python 3.12+
 - NVIDIA GPU with CUDA support
-- Poppler (for PDF to image conversion)
 
 ## Installation
 
@@ -34,21 +33,39 @@ pip install -r requirements.txt
 
 ### Basic Usage
 
-Edit the `file_path` variable in `run.py` with your PDF file path and run:
+Run OCR on PDF file.
 
 ```bash
-python run.py
+python run.py <path/to/pdf>
 ```
 
-### Configuration
+Run OCR on image file.
 
-Key parameters in `run.py`:
+```
+python run.py --image <path/to/image>
+```
 
-- `model_name`: Model to use (default: `'deepseek-ai/DeepSeek-OCR-2'`)
-- `CUDA_VISIBLE_DEVICES`: GPU device ID (default: `'0'`)
-- `base_size`: Image base size for processing (default: `1024`)
-- `image_size`: Target image size (default: `768`)
-- `crop_mode`: Enable crop mode for better accuracy (default: `True`)
+Run OCR on a certain number of pages in the PDF.
+
+```
+python run.py <path/to-your/pdf> --max-pages 3
+```
+
+Load model with INT4 quantization using BitsAndBytes
+
+```
+python run.py <path/to-your/pdf> --int4
+```
+
+Choose between "grounding" (which creates structured markdown with images) [default is "grounding"] and "free ocr" which just extracts text.
+
+```
+python run.py <path/to-your/pdf> --prompt "grounding"
+```
+
+```
+python run.py <path/to-your/pdf> --prompt "free ocr"
+```
 
 ### Output Structure
 
